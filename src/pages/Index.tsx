@@ -1,3 +1,4 @@
+// GitHub sync test ✅
 import { useEffect } from "react";
 import ResourceBar from "@/components/ResourceBar";
 import HeroSection from "@/components/HeroSection";
