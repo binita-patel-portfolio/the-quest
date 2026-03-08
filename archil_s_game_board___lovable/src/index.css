@@ -1,0 +1,175 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Archivo+Black&family=Archivo:wght@400;500;600;700&display=swap');
+
+/* =============================================
+   BAUHAUS × CODE EDITOR DESIGN SYSTEM
+   Cobalt Blue · Tomato Red · Lemon Yellow
+   JetBrains Mono for syntax · Archivo Black for display
+   ============================================= */
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 220 15% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 15% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 15% 10%;
+
+    --primary: 218 100% 34%;          /* Cobalt Blue #0047AB */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 55 100% 63%;         /* Lemon Yellow */
+    --secondary-foreground: 220 15% 10%;
+
+    --muted: 220 10% 92%;
+    --muted-foreground: 220 10% 45%;
+
+    --accent: 16 100% 60%;            /* Tomato Red #FF6347 */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 85% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 15% 80%;
+    --input: 220 15% 80%;
+    --ring: 218 100% 34%;
+
+    --radius: 0rem;
+
+    /* === BAUHAUS PALETTE === */
+    --bauhaus-blue:   218 100% 34%;
+    --bauhaus-red:    16 100% 60%;
+    --bauhaus-yellow: 55 100% 63%;
+    --bauhaus-black:  220 15% 8%;
+    --bauhaus-white:  0 0% 100%;
+
+    /* === SYNTAX COLORS (code decoration) === */
+    --syntax-keyword: 218 100% 34%;   /* cobalt blue  — const/function */
+    --syntax-string:  16 100% 55%;    /* tomato red   — string values  */
+    --syntax-comment: 220 10% 52%;    /* muted grey   — // comments    */
+    --syntax-type:    55 100% 45%;    /* dark yellow  — class names    */
+
+    /* === TYPOGRAPHY === */
+    --font-title: 'Archivo Black', sans-serif;
+    --font-body:  'Archivo', sans-serif;
+    --font-mono:  'JetBrains Mono', monospace;
+
+    /* Sidebar */
+    --sidebar-background: 218 100% 28%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 55 100% 63%;
+    --sidebar-primary-foreground: 220 15% 10%;
+    --sidebar-accent: 218 100% 40%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 218 100% 40%;
+    --sidebar-ring: 55 100% 63%;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+
+  h1, h2, h3 { font-family: var(--font-title); }
+  code, .code { font-family: var(--font-mono); }
+}
+
+@layer components {
+  /* === BAUHAUS CARD === */
+  .editor-card {
+    background: hsl(var(--card));
+    border: 3px solid hsl(var(--bauhaus-black));
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+  .editor-card:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 6px 6px 0 hsl(var(--bauhaus-blue));
+  }
+
+  /* === NAV BAR === */
+  .resource-bar-bg {
+    background: hsl(var(--bauhaus-blue));
+    border-bottom: 3px solid hsl(var(--bauhaus-black));
+  }
+
+  /* === ART TEXT — Bauhaus geometry clipped into text === */
+  .art-text {
+    background-image:
+      radial-gradient(circle at 20% 30%, hsl(var(--bauhaus-red)) 0%, transparent 35%),
+      radial-gradient(circle at 80% 20%, hsl(var(--bauhaus-yellow)) 0%, transparent 30%),
+      radial-gradient(circle at 60% 70%, hsl(var(--bauhaus-blue)) 0%, transparent 40%),
+      radial-gradient(circle at 10% 80%, hsl(var(--bauhaus-red) / 0.7) 0%, transparent 30%),
+      linear-gradient(135deg, hsl(var(--bauhaus-blue)) 0%, hsl(var(--bauhaus-red)) 50%, hsl(var(--bauhaus-yellow)) 100%);
+    background-size: 100% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* === OUTLINED MUSEUM TEXT === */
+  .text-outline-blue {
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 2px hsl(var(--bauhaus-blue));
+  }
+  .text-outline-black {
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 2px hsl(var(--bauhaus-black));
+  }
+
+  /* === PROGRESS (compat) === */
+  .xp-track {
+    background: hsl(var(--bauhaus-black) / 0.3);
+    border: 1px solid hsl(var(--bauhaus-black) / 0.5);
+    overflow: hidden;
+  }
+  .xp-fill, .xp-fill-rose {
+    background: hsl(var(--bauhaus-yellow));
+    height: 100%;
+    transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .parchment-panel { @apply editor-card; }
+}
+
+@layer utilities {
+  .font-title      { font-family: var(--font-title); }
+  .font-body-serif { font-family: var(--font-body); }
+  .font-mono-game  { font-family: var(--font-mono); }
+
+  .text-cobalt  { color: hsl(var(--bauhaus-blue)); }
+  .text-tomato  { color: hsl(var(--bauhaus-red)); }
+  .text-lemon   { color: hsl(var(--bauhaus-yellow)); }
+  .text-bblack  { color: hsl(var(--bauhaus-black)); }
+  .bg-cobalt    { background: hsl(var(--bauhaus-blue)); }
+  .bg-tomato    { background: hsl(var(--bauhaus-red)); }
+  .bg-lemon     { background: hsl(var(--bauhaus-yellow)); }
+
+  /* Legacy compat */
+  .text-parchment   { color: hsl(var(--foreground)); }
+  .text-neon-cyan   { color: hsl(var(--bauhaus-blue)); }
+  .text-neon-purple { color: hsl(var(--bauhaus-red)); }
+  .text-neon-green  { color: hsl(var(--bauhaus-yellow)); }
+  .text-gold-token  { color: hsl(var(--bauhaus-yellow)); }
+  .border-gold-token { border-color: hsl(var(--bauhaus-black)); }
+  .glow-cyan   { }
+  .glow-purple { }
+
+  .shadow-bauhaus-blue   { box-shadow: 4px 4px 0 hsl(var(--bauhaus-blue)); }
+  .shadow-bauhaus-red    { box-shadow: 4px 4px 0 hsl(var(--bauhaus-red)); }
+  .shadow-bauhaus-yellow { box-shadow: 4px 4px 0 hsl(var(--bauhaus-yellow)); }
+}
