@@ -55,7 +55,7 @@ const Candle = ({ progress }: { progress: number }) => {
   // Candle burns DOWN — wax top descends, body shrinks
   const maxWaxH = 38;
   const minWaxH = 5;
-  const waxBottom = 54;                                          // fixed bottom
+  const waxBottom = 62;                                          // fixed bottom — flush with SVG bottom
   const waxH = maxWaxH - ((maxWaxH - minWaxH) * (progress / 100)); // shrinks
   const waxTop = waxBottom - waxH;
   const wickY  = waxTop - 1;
