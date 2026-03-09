@@ -136,7 +136,20 @@ const HeroSection = () => (
           <p className="font-body-serif text-base leading-relaxed font-medium">
             Outside work, I manage a{" "}
             <strong style={{ color: "hsl(var(--bauhaus-red))" }}>Quesada Burritos & Tacos</strong>{" "}
-            location, make candles, paint things you probably shouldn't hang on a wall, and play board games.
+            location,{" "}
+            <span
+              onMouseEnter={() => window.dispatchEvent(new CustomEvent("candle-pulse"))}
+              style={{
+                color: "hsl(38 100% 58%)",
+                fontWeight: 700,
+                cursor: "default",
+                textDecoration: "underline dotted",
+                textUnderlineOffset: "3px",
+              }}
+            >
+              make candles
+            </span>
+            , paint things you probably shouldn't hang on a wall, and play board games.
           </p>
         </div>
       </motion.div>
