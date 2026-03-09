@@ -239,7 +239,7 @@ const ResourceBar = () => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ delay: 0.4, duration: 0.5 }}
     >
-      <div className="px-5 py-0 max-w-5xl mx-auto flex items-end gap-6">
+      <div className="px-5 pt-3 pb-0 max-w-5xl mx-auto flex items-center gap-6">
 
         {/* Logo */}
         <div className="flex items-center gap-2 shrink-0">
