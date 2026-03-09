@@ -392,7 +392,6 @@ const ResourceBar = () => {
 };
 
 export default ResourceBar;
-  { id: "hero",     label: "The Hero"  },
   { id: "projects", label: "The Quest" },
   { id: "games",    label: "The Board" },
   { id: "contact",  label: "The Lobby" },
