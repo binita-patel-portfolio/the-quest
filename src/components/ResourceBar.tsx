@@ -8,7 +8,7 @@ const SECTIONS = [
   { id: "contact",  label: "The Lobby" },
 ];
 
-const Candle = ({ progress }: { progress: number }) => {
+const Candle = ({ progress, size = 1 }: { progress: number; size?: number }) => {
   const [flicker, setFlicker] = useState({ sx: 1, sy: 1, tx: 0, o: 1, rot: 0 });
   const [smokeParticles, setSmokeParticles] = useState<{ id: number; x: number; delay: number }[]>([]);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -75,7 +75,7 @@ const Candle = ({ progress }: { progress: number }) => {
   const drip3Opacity = progress > 60 ? Math.min(1, (progress - 60) / 20) : 0;
 
   return (
-    <svg width="32" height="68" viewBox="0 0 32 68" fill="none" overflow="visible" style={{ display: "block", margin: 0, verticalAlign: "bottom" }}>
+    <svg width={32 * size} height={68 * size} viewBox="0 0 32 68" fill="none" overflow="visible" style={{ display: "block", margin: 0, verticalAlign: "middle" }}>
       <defs>
         <linearGradient id="waxGrad2" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%"   stopColor="hsl(30 18% 62%)" />
@@ -241,7 +241,7 @@ const ResourceBar = () => {
     >
       <div className="px-5 pt-3 pb-0 max-w-5xl mx-auto flex items-center gap-6">
 
-        {/* Logo */}
+        {/* Logo + Candle brand unit */}
         <div className="flex items-center gap-2 shrink-0">
           <div
             className="px-2.5 py-1"
@@ -254,6 +254,7 @@ const ResourceBar = () => {
               Binita
             </span>
           </div>
+          <Candle progress={progress} size={0.5} />
         </div>
 
         {/* Nav links */}
@@ -274,10 +275,6 @@ const ResourceBar = () => {
           ))}
         </nav>
 
-        {/* Candle — right side */}
-        <div className="ml-auto shrink-0 self-end" style={{ padding: 0, margin: 0, marginBottom: "-8px", lineHeight: 0 }}>
-          <Candle progress={progress} />
-        </div>
 
       </div>
     </motion.header>
