@@ -8,7 +8,7 @@ const SECTIONS = [
   { id: "contact",  label: "The Lobby" },
 ];
 
-const Candle = ({ progress }: { progress: number }) => {
+const Candle = ({ progress, size = 1 }: { progress: number; size?: number }) => {
   const [flicker, setFlicker] = useState({ sx: 1, sy: 1, tx: 0, o: 1, rot: 0 });
   const [smokeParticles, setSmokeParticles] = useState<{ id: number; x: number; delay: number }[]>([]);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
