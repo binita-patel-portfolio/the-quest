@@ -55,7 +55,7 @@ const Candle = ({ progress }: { progress: number }) => {
   // Candle burns DOWN — wax top descends, body shrinks
   const maxWaxH = 38;
   const minWaxH = 5;
-  const waxBottom = 62;                                          // fixed bottom — flush with SVG bottom
+  const waxBottom = 68;                                          // fixed bottom — flush with SVG bottom edge
   const waxH = maxWaxH - ((maxWaxH - minWaxH) * (progress / 100)); // shrinks
   const waxTop = waxBottom - waxH;
   const wickY  = waxTop - 1;
@@ -274,8 +274,8 @@ const ResourceBar = () => {
           ))}
         </nav>
 
-        {/* Candle — right side */}
-        <div className="ml-auto shrink-0 self-end" style={{ padding: 0, margin: 0, lineHeight: 0 }}>
+        {/* Candle — right side, flush to navbar bottom */}
+        <div className="ml-auto shrink-0" style={{ padding: 0, margin: 0, lineHeight: 0, alignSelf: "flex-end", marginBottom: "-1px" }}>
           <Candle progress={progress} />
         </div>
 
