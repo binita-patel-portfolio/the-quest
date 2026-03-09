@@ -1,5 +1,5 @@
 // GitHub sync test ✅
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ResourceBar from "@/components/ResourceBar";
 import HeroSection from "@/components/HeroSection";
 import ProjectsSection from "@/components/ProjectsSection";
@@ -7,32 +7,40 @@ import BoardGamesSection from "@/components/BoardGamesSection";
 import ContactSection from "@/components/ContactSection";
 
 const Index = () => {
-  // Scroll-driven background: white → cobalt blue → near black
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  // Scroll-driven background: white → deep charcoal with warm orange glow
   useEffect(() => {
     const onScroll = () => {
       const total = document.documentElement.scrollHeight - window.innerHeight;
       const p = total > 0 ? window.scrollY / total : 0; // 0–1
+      setScrollProgress(p);
 
-      // Interpolate: 0 = hsl(0 0% 98%), 1 = hsl(220 15% 8%)
-      // Hue: 0 → 220
-      // Saturation: 0% → 15%
-      // Lightness: 98% → 8%
-      const hue = Math.round(p * 220);
-      const sat = Math.round(p * 15);
-      const lit = Math.round(98 - p * 90);
-      document.body.style.backgroundColor = `hsl(${hue} ${sat}% ${lit}%)`;
-
-      // Also flip text color at ~50% darkness
-      if (lit < 50) {
-        document.body.style.color = "hsl(0 0% 95%)";
+      if (p >= 0.98) {
+        // Victory dark: deep charcoal #1A1A1A with orange radial glow
+        document.body.style.backgroundColor = "#1A1A1A";
+        document.body.style.backgroundImage =
+          "radial-gradient(ellipse 60% 50% at 50% 60%, hsl(28 100% 40% / 0.18) 0%, transparent 70%)";
+        document.body.style.color = "hsl(35 30% 88%)"; // warm off-white
       } else {
-        document.body.style.color = "hsl(220 15% 10%)";
+        const hue = Math.round(p * 220);
+        const sat = Math.round(p * 15);
+        const lit = Math.round(98 - p * 90);
+        document.body.style.backgroundColor = `hsl(${hue} ${sat}% ${lit}%)`;
+        document.body.style.backgroundImage = "none";
+        if (lit < 50) {
+          document.body.style.color = "hsl(35 30% 88%)"; // warm off-white in dark
+        } else {
+          document.body.style.color = "hsl(220 15% 10%)";
+        }
       }
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const isVictory = scrollProgress >= 0.98;
 
   return (
     <div className="min-h-screen overflow-x-hidden relative">
@@ -50,7 +58,7 @@ const Index = () => {
       <ResourceBar />
 
       <main className="pt-14">
-        <HeroSection />
+        <HeroSection isVictory={isVictory} />
 
         {/* Thick Bauhaus divider */}
         <div style={{ height: 4, background: "hsl(var(--bauhaus-blue))", margin: "0 0" }} />

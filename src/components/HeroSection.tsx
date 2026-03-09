@@ -27,7 +27,7 @@ const WHAT_I_DO = [
   },
 ];
 
-const HeroSection = () => (
+const HeroSection = ({ isVictory = false }: { isVictory?: boolean }) => (
   <section id="hero" className="relative py-24 px-6 overflow-hidden">
 
     <div className="max-w-4xl mx-auto relative">
@@ -61,13 +61,15 @@ const HeroSection = () => (
             fontSize: "clamp(5rem, 22vw, 11rem)",
             letterSpacing: "-0.03em",
             color: "hsl(var(--bauhaus-blue))",
+            transition: "text-shadow 0.8s ease",
+            textShadow: isVictory
+              ? "0 0 40px hsl(28 100% 55% / 0.6), 0 0 80px hsl(28 100% 45% / 0.3)"
+              : "none",
           }}
         >
           BINITA
         </h1>
       </motion.div>
-
-
 
       {/* Buttons */}
       <motion.div
@@ -77,10 +79,10 @@ const HeroSection = () => (
         transition={{ delay: 0.6 }}
       >
         {[
-          { label: "Email",     href: "mailto:binitapatel266@gmail.com",             bg: "hsl(var(--bauhaus-yellow))", fg: "hsl(var(--bauhaus-black))" },
-          { label: "LinkedIn",  href: "https://www.linkedin.com/in/binitapatel266/", bg: "hsl(var(--bauhaus-blue))",   fg: "hsl(var(--bauhaus-white))" },
-          { label: "Etsy Shop", href: "https://www.etsy.com/ca/shop/MadeByBinita",  bg: "hsl(25 100% 52%)",           fg: "hsl(var(--bauhaus-white))" },
-        ].map(({ label, href, bg, fg }) => (
+          { label: "Email",     href: "mailto:binitapatel266@gmail.com",             bg: "hsl(var(--bauhaus-yellow))", fg: "hsl(var(--bauhaus-black))", glow: true },
+          { label: "LinkedIn",  href: "https://www.linkedin.com/in/binitapatel266/", bg: "hsl(var(--bauhaus-blue))",   fg: "hsl(var(--bauhaus-white))", glow: false },
+          { label: "Etsy Shop", href: "https://www.etsy.com/ca/shop/MadeByBinita",  bg: "hsl(25 100% 52%)",           fg: "hsl(var(--bauhaus-white))", glow: false },
+        ].map(({ label, href, bg, fg, glow }) => (
           <motion.a
             key={label}
             href={href}
@@ -92,8 +94,10 @@ const HeroSection = () => (
             style={{
               background: bg, color: fg,
               border: "2px solid hsl(var(--bauhaus-black))",
-              boxShadow: "3px 3px 0 hsl(var(--bauhaus-black))",
-              transition: "box-shadow 0.1s, transform 0.1s",
+              boxShadow: isVictory && glow
+                ? "3px 3px 0 hsl(var(--bauhaus-black)), 0 0 20px hsl(28 100% 55% / 0.5), 0 0 40px hsl(28 100% 45% / 0.25)"
+                : "3px 3px 0 hsl(var(--bauhaus-black))",
+              transition: "box-shadow 0.8s ease, transform 0.1s",
             }}
           >
             {label}
