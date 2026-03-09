@@ -40,6 +40,8 @@ const Index = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const isVictory = scrollProgress >= 0.98;
+
   return (
     <div className="min-h-screen overflow-x-hidden relative">
       {/* Full-page subtle grid */}
@@ -56,7 +58,7 @@ const Index = () => {
       <ResourceBar />
 
       <main className="pt-14">
-        <HeroSection />
+        <HeroSection isVictory={isVictory} />
 
         {/* Thick Bauhaus divider */}
         <div style={{ height: 4, background: "hsl(var(--bauhaus-blue))", margin: "0 0" }} />
