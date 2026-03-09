@@ -275,7 +275,7 @@ const ResourceBar = () => {
         </nav>
 
         {/* Candle — right side */}
-        <div className="ml-auto shrink-0 flex items-end" style={{ padding: 0, margin: 0 }}>
+        <div className="ml-auto shrink-0 self-end" style={{ padding: 0, margin: 0, lineHeight: 0 }}>
           <Candle progress={progress} />
         </div>
 
