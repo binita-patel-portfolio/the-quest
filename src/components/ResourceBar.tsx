@@ -45,11 +45,11 @@ const Candle = ({ progress }: { progress: number }) => {
   const waxTop = 50 - waxH;
   const wickTip = waxTop - 1;
 
-  // Flame grows with scroll: small ember at 0 → full flame at 100
-  const flameH   = 8 + (progress / 100) * 18;   // 8px → 26px tall
-  const flameW   = 0.55 + (progress / 100) * 0.5; // scaleX 0.55 → 1.05
+  // Flame is fixed size — only flicker changes, not height
+  const flameH = 16;
+  const flameW = 1;
 
-  // Outer flame path (tip at -flameH, base at 0)
+  // Fixed teardrop flame paths
   const outer = `M0,${-flameH} C${flameH * 0.38},${-flameH * 0.72} ${flameH * 0.5},${-flameH * 0.3} ${flameH * 0.3},-1 C${flameH * 0.16},1 ${-flameH * 0.16},1 ${-flameH * 0.3},-1 C${-flameH * 0.5},${-flameH * 0.3} ${-flameH * 0.38},${-flameH * 0.72} 0,${-flameH} Z`;
   const mid   = `M0,${-flameH * 0.72} C${flameH * 0.26},${-flameH * 0.5} ${flameH * 0.32},${-flameH * 0.18} ${flameH * 0.2},-0.3 C${flameH * 0.1},0.7 ${-flameH * 0.1},0.7 ${-flameH * 0.2},-0.3 C${-flameH * 0.32},${-flameH * 0.18} ${-flameH * 0.26},${-flameH * 0.5} 0,${-flameH * 0.72} Z`;
   const core  = `M0,${-flameH * 0.45} C${flameH * 0.12},${-flameH * 0.28} ${flameH * 0.14},${-flameH * 0.08} ${flameH * 0.08},0 C${flameH * 0.04},0.5 ${-flameH * 0.04},0.5 ${-flameH * 0.08},0 C${-flameH * 0.14},${-flameH * 0.08} ${-flameH * 0.12},${-flameH * 0.28} 0,${-flameH * 0.45} Z`;
@@ -177,20 +177,20 @@ const Candle = ({ progress }: { progress: number }) => {
       <ellipse cx="14" cy={waxTop + waxH - 0.5} rx="8" ry="1.3"
         fill="hsl(30 15% 48%)" opacity="0.28" />
 
-      {/* Wax drip left */}
-      {progress > 20 && (
+      {/* Wax drip left — visible from start, disappears when candle too short */}
+      {waxH > 10 && (
         <path
-          d={`M7 ${waxTop + 3} Q5.5 ${waxTop + 10} 6.2 ${waxTop + 18}`}
+          d={`M7 ${waxTop + 2} Q5.5 ${waxTop + Math.min(8, waxH * 0.45)} 6.2 ${waxTop + Math.min(14, waxH * 0.75)}`}
           stroke="hsl(0 0% 90%)" strokeWidth="2.2" strokeLinecap="round" fill="none"
-          opacity={Math.min(1, (progress - 20) / 28)}
+          opacity={Math.min(1, (waxH - 10) / 10)}
         />
       )}
-      {/* Wax drip right */}
-      {progress > 40 && (
+      {/* Wax drip right — visible from start, disappears when candle too short */}
+      {waxH > 14 && (
         <path
-          d={`M21 ${waxTop + 4} Q22.5 ${waxTop + 12} 21.8 ${waxTop + 20}`}
+          d={`M21 ${waxTop + 3} Q22.5 ${waxTop + Math.min(10, waxH * 0.5)} 21.8 ${waxTop + Math.min(16, waxH * 0.78)}`}
           stroke="hsl(0 0% 87%)" strokeWidth="1.9" strokeLinecap="round" fill="none"
-          opacity={Math.min(1, (progress - 40) / 28)}
+          opacity={Math.min(1, (waxH - 14) / 10)}
         />
       )}
     </svg>
