@@ -75,7 +75,7 @@ const Candle = ({ progress }: { progress: number }) => {
   const drip3Opacity = progress > 60 ? Math.min(1, (progress - 60) / 20) : 0;
 
   return (
-    <svg width="32" height="68" viewBox="0 0 32 68" fill="none" overflow="visible" style={{ marginTop: "10px" }}>
+    <svg width="32" height="68" viewBox="0 0 32 68" fill="none" overflow="visible" style={{ marginTop: "22px" }}>
       <defs>
         <linearGradient id="waxGrad2" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%"   stopColor="hsl(30 18% 62%)" />
