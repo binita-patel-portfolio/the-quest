@@ -8,7 +8,7 @@ const SECTIONS = [
   { id: "contact",  label: "The Lobby" },
 ];
 
-const Candle = ({ progress, size = 1 }: { progress: number; size?: number }) => {
+const Candle = ({ progress }: { progress: number }) => {
   const [flicker, setFlicker] = useState({ sx: 1, sy: 1, tx: 0, o: 1, rot: 0 });
   const [smokeParticles, setSmokeParticles] = useState<{ id: number; x: number; delay: number }[]>([]);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -75,7 +75,7 @@ const Candle = ({ progress, size = 1 }: { progress: number; size?: number }) => 
   const drip3Opacity = progress > 60 ? Math.min(1, (progress - 60) / 20) : 0;
 
   return (
-    <svg width={32 * size} height={68 * size} viewBox="0 0 32 68" fill="none" overflow="visible" style={{ display: "block", margin: 0, verticalAlign: "middle" }}>
+    <svg width="32" height="68" viewBox="0 0 32 68" fill="none" overflow="visible" style={{ display: "block", margin: 0, verticalAlign: "bottom" }}>
       <defs>
         <linearGradient id="waxGrad2" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%"   stopColor="hsl(30 18% 62%)" />
@@ -226,8 +226,6 @@ const ResourceBar = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const isVictory = progress >= 98;
-
   return (
     <motion.header
       className="fixed top-0 left-0 right-0 z-50 overflow-hidden"
@@ -243,52 +241,19 @@ const ResourceBar = () => {
     >
       <div className="px-5 pt-3 pb-0 max-w-5xl mx-auto flex items-center gap-6">
 
-        {/* Logo + Candle brand unit */}
+        {/* Logo */}
         <div className="flex items-center gap-2 shrink-0">
           <div
             className="px-2.5 py-1"
             style={{
               background: "hsl(var(--bauhaus-yellow))",
               border: "2px solid hsl(var(--bauhaus-black))",
-              boxShadow: isVictory
-                ? "0 0 14px hsl(28 100% 55% / 0.55), 0 0 28px hsl(28 100% 45% / 0.28)"
-                : "none",
-              transition: "box-shadow 0.8s ease",
             }}
           >
             <span className="font-title text-xs tracking-[0.1em] uppercase" style={{ color: "hsl(var(--bauhaus-black))" }}>
               Binita
             </span>
           </div>
-
-          {/* Trophy replaces candle at 100% */}
-          {isVictory ? (
-            <motion.svg
-              width="16" height="34" viewBox="0 0 24 28" fill="none"
-              initial={{ scale: 0, rotate: -20 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ type: "spring", stiffness: 200, damping: 12 }}
-            >
-              <motion.g
-                animate={{ filter: ["drop-shadow(0 0 4px hsl(45 100% 60%))", "drop-shadow(0 0 10px hsl(45 100% 70%))", "drop-shadow(0 0 4px hsl(45 100% 60%))"] }}
-                transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-              >
-                {/* Cup body */}
-                <path d="M7 2 H17 V10 C17 14.4 14 17 12 18 C10 17 7 14.4 7 10 Z" fill="hsl(45 100% 58%)" stroke="hsl(38 80% 40%)" strokeWidth="0.6"/>
-                {/* Handles */}
-                <path d="M7 4 C4 4 3 7 4.5 9 C5.5 10.5 7 10 7 10" stroke="hsl(45 100% 58%)" strokeWidth="1.2" fill="none" strokeLinecap="round"/>
-                <path d="M17 4 C20 4 21 7 19.5 9 C18.5 10.5 17 10 17 10" stroke="hsl(45 100% 58%)" strokeWidth="1.2" fill="none" strokeLinecap="round"/>
-                {/* Stem */}
-                <rect x="10.5" y="18" width="3" height="4" fill="hsl(45 100% 52%)" rx="0.4"/>
-                {/* Base */}
-                <rect x="7.5" y="22" width="9" height="2" fill="hsl(45 100% 55%)" stroke="hsl(38 80% 40%)" strokeWidth="0.5" rx="0.5"/>
-                {/* Star shine */}
-                <circle cx="10" cy="7" r="1" fill="hsl(55 100% 90%)" opacity="0.7"/>
-              </motion.g>
-            </motion.svg>
-          ) : (
-            <Candle progress={progress} size={0.5} />
-          )}
         </div>
 
         {/* Nav links */}
@@ -309,6 +274,10 @@ const ResourceBar = () => {
           ))}
         </nav>
 
+        {/* Candle — right side */}
+        <div className="ml-auto shrink-0 self-end" style={{ padding: 0, margin: 0, lineHeight: 0 }}>
+          <Candle progress={progress} />
+        </div>
 
       </div>
     </motion.header>
