@@ -241,7 +241,7 @@ const ResourceBar = () => {
     >
       <div className="px-5 pt-3 pb-0 max-w-5xl mx-auto flex items-center gap-6">
 
-        {/* Logo */}
+        {/* Logo + Candle brand unit */}
         <div className="flex items-center gap-2 shrink-0">
           <div
             className="px-2.5 py-1"
@@ -254,6 +254,7 @@ const ResourceBar = () => {
               Binita
             </span>
           </div>
+          <Candle progress={progress} size={0.5} />
         </div>
 
         {/* Nav links */}
@@ -274,10 +275,6 @@ const ResourceBar = () => {
           ))}
         </nav>
 
-        {/* Candle — right side */}
-        <div className="ml-auto shrink-0 self-end" style={{ padding: 0, margin: 0, marginBottom: "-8px", lineHeight: 0 }}>
-          <Candle progress={progress} />
-        </div>
 
       </div>
     </motion.header>
