@@ -55,7 +55,7 @@ const Candle = ({ progress }: { progress: number }) => {
   // Candle burns DOWN — wax top descends, body shrinks
   const maxWaxH = 38;
   const minWaxH = 5;
-  const waxBottom = 54;                                          // fixed bottom
+  const waxBottom = 62;                                          // fixed bottom — flush with SVG bottom
   const waxH = maxWaxH - ((maxWaxH - minWaxH) * (progress / 100)); // shrinks
   const waxTop = waxBottom - waxH;
   const wickY  = waxTop - 1;
@@ -75,7 +75,7 @@ const Candle = ({ progress }: { progress: number }) => {
   const drip3Opacity = progress > 60 ? Math.min(1, (progress - 60) / 20) : 0;
 
   return (
-    <svg width="32" height="68" viewBox="0 0 32 68" fill="none" overflow="visible" style={{ display: "block", margin: 0 }}>
+    <svg width="32" height="68" viewBox="0 0 32 68" fill="none" overflow="visible" style={{ display: "block", margin: 0, verticalAlign: "bottom" }}>
       <defs>
         <linearGradient id="waxGrad2" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%"   stopColor="hsl(30 18% 62%)" />
