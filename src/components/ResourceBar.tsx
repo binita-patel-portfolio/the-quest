@@ -40,9 +40,9 @@ const Candle = ({ progress }: { progress: number }) => {
     return () => { if (timer.current) clearTimeout(timer.current); };
   }, [progress, flickerInterval, mag, burnedOut]);
 
-  // Fixed candle body dimensions
-  const waxH   = 34;
-  const waxTop = 50 - waxH;  // top of wax
+  // Candle body burns down with scroll: 34px → 6px
+  const waxH   = Math.max(6, 34 - (progress / 100) * 28);
+  const waxTop = 50 - waxH;
   const wickTip = waxTop - 1;
 
   // Flame grows with scroll: small ember at 0 → full flame at 100
