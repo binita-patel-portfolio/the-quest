@@ -8,65 +8,75 @@ const SECTIONS = [
   { id: "contact",  label: "The Lobby" },
 ];
 
-
-// Candle — realistic 3D premium candle with glow halo
+// Candle — fixed body, flame GROWS with scroll progress
 const Candle = ({ progress }: { progress: number }) => {
   const [flicker, setFlicker] = useState({ sx: 1, sy: 1, tx: 0, o: 1, rot: 0 });
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Flicker speed & intensity increases with progress
+  const flickerIntensity = 0.12 + (progress / 100) * 0.28;
+  const flickerSpeed     = 50  + (1 - progress / 100) * 70; // faster at high scroll
+
   useEffect(() => {
-    if (progress >= 98) return;
     const tick = () => {
       setFlicker({
-        sx:  0.80 + Math.random() * 0.40,
-        sy:  0.85 + Math.random() * 0.30,
-        tx:  (Math.random() - 0.5) * 2.2,
-        o:   0.88 + Math.random() * 0.12,
-        rot: (Math.random() - 0.5) * 7,
+        sx:  1 - flickerIntensity + Math.random() * flickerIntensity * 2,
+        sy:  0.90 + Math.random() * 0.22,
+        tx:  (Math.random() - 0.5) * (1.5 + (progress / 100) * 3),
+        o:   0.85 + Math.random() * 0.15,
+        rot: (Math.random() - 0.5) * (5 + (progress / 100) * 10),
       });
-      timer.current = setTimeout(tick, 60 + Math.random() * 90);
+      timer.current = setTimeout(tick, flickerSpeed + Math.random() * 40);
     };
-    timer.current = setTimeout(tick, 60);
+    timer.current = setTimeout(tick, flickerSpeed);
     return () => { if (timer.current) clearTimeout(timer.current); };
-  }, [progress]);
+  }, [progress, flickerIntensity, flickerSpeed]);
 
-  const maxH = 38;
-  const minH = 5;
-  const waxH      = maxH - ((maxH - minH) * progress) / 100;
-  const waxTop    = 56 - waxH;
-  const flameBaseY = waxTop - 1;
-  const burnedOut  = progress >= 98;
-  const flameOpacity = Math.max(0, 1 - (progress / 100) * 0.55);
+  // Fixed candle body
+  const waxH   = 36;
+  const waxTop = 52 - waxH;         // = 16
+  const wickY  = waxTop - 1;        // = 15
 
-  // Teardrop flame paths centred at (0,0) = flame base
-  const outerFlame = "M0,-17 C5.5,-12 7.5,-5 4.5,-1 C2.5,1.5 -2.5,1.5 -4.5,-1 C-7.5,-5 -5.5,-12 0,-17 Z";
-  const midFlame   = "M0,-12 C3.5,-8 5,-3.5 3,-0.5 C1.5,1 -1.5,1 -3,-0.5 C-5,-3.5 -3.5,-8 0,-12 Z";
-  const coreFlame  = "M0,-7.5 C1.8,-5 2.2,-2 1.2,0 C0.6,0.9 -0.6,0.9 -1.2,0 C-2.2,-2 -1.8,-5 0,-7.5 Z";
+  // Flame grows from tiny (progress=0) to tall (progress=100)
+  const flameScale = 0.45 + (progress / 100) * 0.9; // 0.45 → 1.35
+  const flameBaseY = wickY - 1;
+
+  // Glow intensifies with progress
+  const haloOpacity  = (0.15 + (progress / 100) * 0.55) * flicker.o;
+  const haloRx       = 10 + (progress / 100) * 14;
+  const haloRy       = 8  + (progress / 100) * 12;
+  const glowBlur     = 6  + (progress / 100) * 12;
+
+  // Flame paths centred at (0,0)
+  const outerFlame = "M0,-18 C6,-13 8,-5 5,-1 C2.5,1.5 -2.5,1.5 -5,-1 C-8,-5 -6,-13 0,-18 Z";
+  const midFlame   = "M0,-13 C4,-8 5.5,-3 3.2,-0.4 C1.6,1 -1.6,1 -3.2,-0.4 C-5.5,-3 -4,-8 0,-13 Z";
+  const coreFlame  = "M0,-8 C2,-5.2 2.4,-2 1.3,0 C0.7,1 -0.7,1 -1.3,0 C-2.4,-2 -2,-5.2 0,-8 Z";
 
   return (
-    <svg width="26" height="58" viewBox="0 0 26 58" fill="none" overflow="visible">
+    <svg width="30" height="62" viewBox="0 0 30 62" fill="none" overflow="visible">
       <defs>
-        {/* Cylindrical 3D body gradient — light centre, shadowed edges */}
+        {/* 3D cylindrical wax body */}
         <linearGradient id="waxGrad" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%"   stopColor="hsl(30 18% 68%)" />
-          <stop offset="22%"  stopColor="hsl(30 10% 94%)" />
-          <stop offset="50%"  stopColor="hsl(0 0% 99%)" />
-          <stop offset="78%"  stopColor="hsl(30 10% 92%)" />
-          <stop offset="100%" stopColor="hsl(30 18% 65%)" />
+          <stop offset="0%"   stopColor="hsl(30 18% 62%)" />
+          <stop offset="22%"  stopColor="hsl(30 10% 93%)" />
+          <stop offset="50%"  stopColor="hsl(0 0% 99%)"   />
+          <stop offset="78%"  stopColor="hsl(30 10% 91%)" />
+          <stop offset="100%" stopColor="hsl(30 18% 60%)" />
         </linearGradient>
-        {/* Top ellipse rim gradient */}
         <linearGradient id="rimGrad" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%"   stopColor="hsl(30 18% 60%)" />
-          <stop offset="50%"  stopColor="hsl(0 0% 90%)" />
-          <stop offset="100%" stopColor="hsl(30 18% 58%)" />
+          <stop offset="0%"   stopColor="hsl(30 18% 55%)" />
+          <stop offset="50%"  stopColor="hsl(0 0% 88%)"   />
+          <stop offset="100%" stopColor="hsl(30 18% 53%)" />
         </linearGradient>
-        {/* Soft ambient halo blur */}
-        <filter id="halo" x="-300%" y="-300%" width="700%" height="700%">
-          <feGaussianBlur stdDeviation="7" />
+
+        {/* Dynamic halo blur — increases with scroll */}
+        <filter id="halo" x="-400%" y="-400%" width="900%" height="900%">
+          <feGaussianBlur stdDeviation={glowBlur} />
         </filter>
-        {/* Flame inner glow */}
-        <filter id="flameGlow" x="-80%" y="-80%" width="260%" height="260%">
-          <feGaussianBlur stdDeviation="2.5" result="blur" />
+
+        {/* Flame glow filter */}
+        <filter id="flameGlow" x="-100%" y="-100%" width="300%" height="300%">
+          <feGaussianBlur stdDeviation={1.5 + (progress / 100) * 2.5} result="blur" />
           <feMerge>
             <feMergeNode in="blur" />
             <feMergeNode in="SourceGraphic" />
@@ -74,86 +84,84 @@ const Candle = ({ progress }: { progress: number }) => {
         </filter>
       </defs>
 
-      {/* AMBIENT HALO — warm glow cast onto nav bar */}
-      {!burnedOut && (
+      {/* AMBIENT HALO — grows and warms with scroll */}
+      <ellipse
+        cx="15" cy={flameBaseY - 6}
+        rx={haloRx} ry={haloRy}
+        fill="hsl(38 100% 58%)"
+        opacity={haloOpacity}
+        filter="url(#halo)"
+        style={{ transition: "opacity 0.2s ease-out" }}
+      />
+
+      {/* Secondary deep-orange halo at high scroll */}
+      {progress > 40 && (
         <ellipse
-          cx="13" cy={flameBaseY - 7}
-          rx="14" ry="11"
-          fill="hsl(38 100% 58%)"
-          opacity={0.28 * flicker.o * flameOpacity}
+          cx="15" cy={flameBaseY - 4}
+          rx={haloRx * 0.6} ry={haloRy * 0.5}
+          fill="hsl(16 100% 55%)"
+          opacity={(progress - 40) / 100 * 0.4 * flicker.o}
           filter="url(#halo)"
-          style={{ transition: "opacity 0.08s ease-out, cy 0.15s ease-out" }}
         />
       )}
 
-      {/* FLAME */}
-      {!burnedOut && (
-        <g transform={`translate(13, ${flameBaseY})`} filter="url(#flameGlow)">
-          <g
-            style={{
-              transformOrigin: "0px 0px",
-              transform: `scaleX(${flicker.sx}) scaleY(${flicker.sy}) translateX(${flicker.tx}px) rotate(${flicker.rot}deg)`,
-              opacity: flicker.o * flameOpacity,
-              transition: "transform 0.06s ease-out, opacity 0.06s ease-out",
-            }}
-          >
-            <path d={outerFlame} fill="hsl(28 100% 50%)" opacity="0.88" />
-            <path d={midFlame}   fill="hsl(43 100% 62%)" />
-            <path d={coreFlame}  fill="hsl(55 100% 93%)" />
-          </g>
+      {/* FLAME — scaled by progress */}
+      <g transform={`translate(15, ${flameBaseY})`} filter="url(#flameGlow)">
+        <g
+          style={{
+            transformOrigin: "0px 0px",
+            transform: `scale(${flameScale}) scaleX(${flicker.sx}) scaleY(${flicker.sy}) translateX(${flicker.tx}px) rotate(${flicker.rot}deg)`,
+            opacity: flicker.o,
+            transition: "transform 0.06s ease-out, opacity 0.06s ease-out",
+          }}
+        >
+          <path d={outerFlame} fill="hsl(28 100% 48%)" opacity="0.9" />
+          <path d={midFlame}   fill="hsl(43 100% 60%)" />
+          <path d={coreFlame}  fill="hsl(55 100% 92%)" />
         </g>
-      )}
-
-      {/* Smoke wisps when burned out */}
-      {burnedOut && (
-        <g opacity="0.4">
-          <circle cx="13" cy={waxTop - 5}  r="1.5" fill="hsl(220 8% 60%)" />
-          <circle cx="11" cy={waxTop - 9}  r="1"   fill="hsl(220 8% 60%)" />
-          <circle cx="14" cy={waxTop - 13} r="0.8" fill="hsl(220 8% 60%)" />
-        </g>
-      )}
+      </g>
 
       {/* WICK */}
-      <line x1="13" y1={waxTop - 1} x2="13" y2={waxTop + 3.5}
-        stroke="hsl(25 30% 25%)" strokeWidth="1.3" strokeLinecap="round" />
+      <line
+        x1="15" y1={wickY - 0.5} x2="15" y2={waxTop + 3}
+        stroke="hsl(25 30% 22%)" strokeWidth="1.4" strokeLinecap="round"
+      />
 
-      {/* CANDLE BODY — 3D gradient, no border */}
-      <rect x="5" y={waxTop} width="16" height={waxH}
+      {/* CANDLE BODY */}
+      <rect x="6" y={waxTop} width="18" height={waxH}
         fill="url(#waxGrad)" rx="1.5" />
 
-      {/* Top ellipse rim for cylindrical depth */}
-      <ellipse cx="13" cy={waxTop} rx="8" ry="1.8"
-        fill="url(#rimGrad)" opacity="0.75" />
+      {/* Top rim */}
+      <ellipse cx="15" cy={waxTop} rx="9" ry="2"
+        fill="url(#rimGrad)" opacity="0.8" />
 
-      {/* Bottom shadow line for grounding */}
-      <ellipse cx="13" cy={waxTop + waxH - 0.5} rx="7.5" ry="1"
-        fill="hsl(30 18% 55%)" opacity="0.35" />
+      {/* Bottom grounding shadow */}
+      <ellipse cx="15" cy={waxTop + waxH - 0.5} rx="8.5" ry="1.2"
+        fill="hsl(30 18% 50%)" opacity="0.3" />
 
-      {/* Wax drip — left (clamped to candle body height) */}
-      {progress > 20 && waxH > 6 && (() => {
-        const maxLen = Math.min(14, waxH - 4);
-        return (
-          <path d={`M7 ${waxTop + 2} Q5.5 ${waxTop + maxLen * 0.55} 6 ${waxTop + maxLen}`}
-            stroke="hsl(0 0% 88%)" strokeWidth="2.2" strokeLinecap="round" fill="none"
-            opacity={Math.min(1, (progress - 20) / 35) * Math.min(1, (waxH - 6) / 6)} />
-        );
-      })()}
-      {/* Wax drip — right (clamped to candle body height) */}
-      {progress > 38 && waxH > 6 && (() => {
-        const maxLen = Math.min(15, waxH - 3);
-        return (
-          <path d={`M18 ${waxTop + 3} Q19.5 ${waxTop + maxLen * 0.58} 19 ${waxTop + maxLen}`}
-            stroke="hsl(0 0% 86%)" strokeWidth="1.8" strokeLinecap="round" fill="none"
-            opacity={Math.min(1, (progress - 38) / 28) * Math.min(1, (waxH - 6) / 6)} />
-        );
-      })()}
+      {/* Left wax drip */}
+      {progress > 25 && (
+        <path
+          d={`M8 ${waxTop + 3} Q6.5 ${waxTop + 10} 7 ${waxTop + 16}`}
+          stroke="hsl(0 0% 88%)" strokeWidth="2.2" strokeLinecap="round" fill="none"
+          opacity={Math.min(1, (progress - 25) / 30)}
+        />
+      )}
+      {/* Right wax drip */}
+      {progress > 45 && (
+        <path
+          d={`M21 ${waxTop + 4} Q22.5 ${waxTop + 11} 22 ${waxTop + 18}`}
+          stroke="hsl(0 0% 86%)" strokeWidth="1.8" strokeLinecap="round" fill="none"
+          opacity={Math.min(1, (progress - 45) / 30)}
+        />
+      )}
     </svg>
   );
 };
 
 const ResourceBar = () => {
   const [progress, setProgress] = useState(0);
-  const [active, setActive] = useState("hero");
+  const [active, setActive]     = useState("hero");
 
   useEffect(() => {
     const onScroll = () => {
@@ -182,7 +190,6 @@ const ResourceBar = () => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ delay: 0.4, duration: 0.5 }}
     >
-      {/* Nav content */}
       <div className="px-5 py-2 max-w-5xl mx-auto flex items-center gap-6">
 
         {/* Logo */}
@@ -209,14 +216,8 @@ const ResourceBar = () => {
               className="px-3 py-1.5 font-mono-game text-[10px] tracking-wider transition-all duration-150 cursor-pointer"
               style={
                 active === s.id
-                  ? {
-                      color: "hsl(var(--bauhaus-white))",
-                      background: "hsl(var(--bauhaus-red))",
-                      fontWeight: 700,
-                    }
-                  : {
-                      color: "hsl(0 0% 85%)",
-                    }
+                  ? { color: "hsl(var(--bauhaus-white))", background: "hsl(var(--bauhaus-red))", fontWeight: 700 }
+                  : { color: "hsl(0 0% 85%)" }
               }
             >
               {s.label}
@@ -224,20 +225,9 @@ const ResourceBar = () => {
           ))}
         </nav>
 
-        {/* Candle */}
-        <div className="flex items-center gap-2 ml-auto shrink-0">
+        {/* Candle — right side, no percentage text */}
+        <div className="ml-auto shrink-0 flex items-center">
           <Candle progress={progress} />
-          <span
-            className="font-mono-game text-[9px] tabular-nums"
-            style={{
-              color: progress >= 98 ? "hsl(0 0% 100% / 0.22)" : "hsl(55 100% 78%)",
-              minWidth: "2.2rem",
-              textAlign: "right",
-              display: "inline-block",
-            }}
-          >
-            {Math.round(progress)}%
-          </span>
         </div>
 
       </div>
