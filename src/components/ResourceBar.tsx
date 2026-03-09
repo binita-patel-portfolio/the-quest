@@ -392,9 +392,6 @@ const ResourceBar = () => {
 };
 
 export default ResourceBar;
-
-
-const SECTIONS = [
   { id: "hero",     label: "The Hero"  },
   { id: "projects", label: "The Quest" },
   { id: "games",    label: "The Board" },
