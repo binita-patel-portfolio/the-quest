@@ -75,7 +75,7 @@ const Candle = ({ progress }: { progress: number }) => {
   const drip3Opacity = progress > 60 ? Math.min(1, (progress - 60) / 20) : 0;
 
   return (
-    <svg width="32" height="68" viewBox="0 0 32 68" fill="none" overflow="visible" style={{ marginTop: "22px", marginBottom: "0px", display: "block" }}>
+    <svg width="32" height="68" viewBox="0 0 32 68" fill="none" overflow="visible" style={{ display: "block", margin: 0 }}>
       <defs>
         <linearGradient id="waxGrad2" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%"   stopColor="hsl(30 18% 62%)" />
@@ -239,7 +239,7 @@ const ResourceBar = () => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ delay: 0.4, duration: 0.5 }}
     >
-      <div className="px-5 pt-4 pb-2 max-w-5xl mx-auto flex items-center gap-6">
+      <div className="px-5 py-0 max-w-5xl mx-auto flex items-end gap-6">
 
         {/* Logo */}
         <div className="flex items-center gap-2 shrink-0">
