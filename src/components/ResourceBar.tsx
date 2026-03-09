@@ -177,20 +177,20 @@ const Candle = ({ progress }: { progress: number }) => {
       <ellipse cx="14" cy={waxTop + waxH - 0.5} rx="8" ry="1.3"
         fill="hsl(30 15% 48%)" opacity="0.28" />
 
-      {/* Wax drip left */}
-      {progress > 20 && (
+      {/* Wax drip left — visible from start, disappears when candle too short */}
+      {waxH > 10 && (
         <path
-          d={`M7 ${waxTop + 3} Q5.5 ${waxTop + 10} 6.2 ${waxTop + 18}`}
+          d={`M7 ${waxTop + 2} Q5.5 ${waxTop + Math.min(8, waxH * 0.45)} 6.2 ${waxTop + Math.min(14, waxH * 0.75)}`}
           stroke="hsl(0 0% 90%)" strokeWidth="2.2" strokeLinecap="round" fill="none"
-          opacity={Math.min(1, (progress - 20) / 28)}
+          opacity={Math.min(1, (waxH - 10) / 10)}
         />
       )}
-      {/* Wax drip right */}
-      {progress > 40 && (
+      {/* Wax drip right — visible from start, disappears when candle too short */}
+      {waxH > 14 && (
         <path
-          d={`M21 ${waxTop + 4} Q22.5 ${waxTop + 12} 21.8 ${waxTop + 20}`}
+          d={`M21 ${waxTop + 3} Q22.5 ${waxTop + Math.min(10, waxH * 0.5)} 21.8 ${waxTop + Math.min(16, waxH * 0.78)}`}
           stroke="hsl(0 0% 87%)" strokeWidth="1.9" strokeLinecap="round" fill="none"
-          opacity={Math.min(1, (progress - 40) / 28)}
+          opacity={Math.min(1, (waxH - 14) / 10)}
         />
       )}
     </svg>
