@@ -493,6 +493,7 @@ const BoardGamesSection = () => {
             The Board
           </div>
           <h2
+            id="board-games"
             className="font-title leading-none mb-4"
             style={{ fontSize: "clamp(2rem, 8vw, 5rem)" }}
           >
@@ -590,7 +591,7 @@ const BoardGamesSection = () => {
                 </div>
 
                 <div className="px-6 py-6 space-y-4">
-                  <h3 className="font-title text-2xl leading-tight">{game.name}</h3>
+                  <h3 id="revealed-game" className="font-title text-2xl leading-tight">{game.name}</h3>
                   <p className="font-body-serif text-base leading-relaxed font-medium opacity-85">
                     "{game.note}"
                   </p>
@@ -667,6 +668,8 @@ const BoardGamesSection = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.04 }}
+                    aria-label={g.name}
+                    title={g.name}
                   >
                     <ArtTile
                       index={i}
