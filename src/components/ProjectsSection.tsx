@@ -117,7 +117,7 @@ const ExperienceCard = ({ card, index }: { card: ExpCard; index: number }) => (
 
     {/* Content */}
     <div className="px-5 pt-4 pb-2">
-      <h3 className="font-title text-lg leading-tight mb-1">{card.title}</h3>
+      <h3 id={`role-${card.rank}`} className="font-title text-lg leading-tight mb-1">{card.title}</h3>
     </div>
 
     <div className="px-5 pb-1 font-body-serif text-[11px] font-medium" style={{ opacity: 0.6 }}>
@@ -155,6 +155,7 @@ const ProjectsSection = () => (
           The Quest
         </div>
         <h2
+          id="experience"
           className="font-title leading-none mb-4"
           style={{ fontSize: "clamp(2rem, 8vw, 5rem)" }}
         >

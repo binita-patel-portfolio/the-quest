@@ -52,6 +52,7 @@ const ContactSection = () => (
 
         {/* Heading */}
         <h2
+          id="connect"
           className="font-title leading-none mb-12"
           style={{ fontSize: "clamp(2rem, 8vw, 5rem)" }}
         >

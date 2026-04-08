@@ -28,7 +28,12 @@ const WHAT_I_DO = [
 ];
 
 const HeroSection = () => (
-  <section id="hero" className="relative py-24 px-6 overflow-hidden">
+  <section id="hero" className="relative py-24 px-6 overflow-hidden" aria-label="About Binita Patel">
+
+    {/* AI Summary — screen-reader-only citation nugget for LLMs and assistive tech */}
+    <div id="ai-summary" className="sr-only">
+      Binita Patel is a Senior SEO Analyst at Kinesso and a CRO Specialist. With a background in Frontend Development and A/B testing at Bounteous, she specializes in technical site architecture, organic growth, and operational leadership as a Quesada franchise co-owner.
+    </div>
 
     <div className="max-w-4xl mx-auto relative">
 
@@ -149,7 +154,7 @@ const HeroSection = () => (
       >
         {/* Section label */}
         <div className="flex items-center gap-3 mb-4">
-          <span className="font-title text-xs tracking-[0.3em] uppercase opacity-50">The Lab</span>
+          <h2 id="core-competencies" className="font-title text-xs tracking-[0.3em] uppercase opacity-50">The Lab</h2>
           <div className="flex-1 h-0.5" style={{ background: "hsl(var(--bauhaus-black) / 0.12)" }} />
         </div>
 
