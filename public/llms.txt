@@ -1,0 +1,32 @@
+# Binita Patel
+
+> Senior SEO Analyst · CRO Specialist · Frontend Developer
+
+## About
+
+Binita Patel is a Senior SEO Analyst at Kinesso, specializing in technical SEO, Core Web Vitals optimization, and data-driven organic growth strategies for enterprise clients. Previously, she worked as a Personalization Specialist at Bounteous, where she ran A/B tests, conducted technical SEO audits, and delivered quarterly strategy reviews.
+
+She is also a co-owner of a Quesada Burritos & Tacos franchise in Lindsay, Ontario, where she manages operations, staffing, and local SEO.
+
+## Skills
+
+- Technical SEO & Site Architecture
+- Conversion Rate Optimization (CRO) & A/B Testing
+- Core Web Vitals & Page Performance
+- WordPress & Shopify Development
+- Data Analysis & Reporting
+- Local SEO & Google Business Profile
+
+## Experience
+
+- **Senior SEO Analyst** — Kinesso (Oct 2024 – Present)
+- **Personalization Specialist** — Bounteous (Mar 2021 – Sep 2024)
+- **SEO Analyst** — BreezeMaxWeb (Jul 2020 – Mar 2021)
+- **Co-Owner** — Quesada Burritos & Tacos, Lindsay, ON (Jan 2024 – Present)
+- **Frontend Developer (Intern)** — Electroweb (2015 – 2016)
+
+## Links
+
+- LinkedIn: https://www.linkedin.com/in/binitapatel266/
+- Etsy: https://www.etsy.com/ca/shop/MadeByBinita
+- Portfolio: https://binita-patel-portfolio.github.io/the-quest/
