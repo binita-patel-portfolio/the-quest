@@ -76,5 +76,18 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+
+    <script>
+      document.addEventListener('click', function (e) {
+        if (e.target && e.target.innerText && e.target.innerText.includes('ROLL THE DICE')) {
+          gtag('event', 'dice_roll', {
+            'event_category': 'engagement',
+            'event_label': 'Dice Roller',
+            'value': 1
+          });
+          console.log('Dice roll tracked!');
+        }
+      }, true);
+    </script>
   </body>
 </html>
