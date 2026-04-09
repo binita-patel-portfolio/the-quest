@@ -18,9 +18,14 @@ const ResourceBar = () => {
       const total = document.documentElement.scrollHeight - window.innerHeight;
       const p = total > 0 ? (window.scrollY / total) * 100 : 0;
       setProgress(p);
-      for (const s of [...SECTIONS].reverse()) {
-        const el = document.getElementById(s.id);
-        if (el && window.scrollY >= el.offsetTop - 250) { setActive(s.id); break; }
+      // If near bottom of page, activate last section
+      if (total > 0 && total - window.scrollY < 50) {
+        setActive(SECTIONS[SECTIONS.length - 1].id);
+      } else {
+        for (const s of [...SECTIONS].reverse()) {
+          const el = document.getElementById(s.id);
+          if (el && window.scrollY >= el.offsetTop - 250) { setActive(s.id); break; }
+        }
       }
     };
     window.addEventListener("scroll", onScroll, { passive: true });
